@@ -1,0 +1,49 @@
+﻿@model CountryListViewModel
+@{
+	ViewData["Title"] = "Olympic Countries";
+}
+<div class="row">
+	<div class="col-sm-4">
+		<h3 class="mt-4">Game</h3>
+		<div class="list-group">
+			@foreach (Game game in Model.Games)
+			{
+				<a asp-action="Index"
+				   asp-route-activeGame="@game.GameID"
+				   asp-route-activeCatg="@Model.ActiveCatg"
+				   class="list-group-item
+                       @Model.CheckActiveGame(game.GameID)">@game.Name</a>
+				}
+		</div>
+		<h3 class="mt-4">Category</h3>
+		<div class="list-group">
+			@foreach (Category category in Model.Categories)
+			{
+				<a asp-action="Index"
+				   asp-route-activeGame="@Model.ActiveGame"
+				   asp-route-activeCatg="@category.CategoryID"
+				   class="list-group-item
+                       @Model.CheckActiveCatg(category.CategoryID)">@category.Name</a>
+				}
+		</div>
+	</div>
+	<div class="col-sm-8">
+		<ul class="list-inline">
+			@foreach (Country country in Model.Countries)
+			{
+				<li class="list-inline-item">
+					<form asp-action="Details" method="post">
+						<button type="submit" class="bg-white border-0">
+							<img src="~/images/@country.LogoImage" alt="@country.Name"
+								 title="@country.Name | @country.Game.Name @country.Category.Name"/>
+						</button>
+
+						<input type="hidden" asp-for="@country.CountryID" />
+						<input type="hidden" asp-for="ActiveGame" />
+						<input type="hidden" asp-for="ActiveCatg" />
+					</form>
+				</li>
+			}
+		</ul>
+	</div>
+</div>
