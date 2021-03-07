@@ -9,7 +9,7 @@ namespace OlympicGamesDataTransfer.Models
     {
         public List<Country> Countries { get; set; }
 
-        // use full properties for Conferences and Divisions 
+        // use full properties for Games and Categories
         // so can add 'All' item at beginning
         private List<Game> games;
         public List<Game> Games

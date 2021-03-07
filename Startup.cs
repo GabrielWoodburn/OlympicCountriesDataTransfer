@@ -18,7 +18,10 @@ namespace OlympicGamesDataTransfer
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
             services.AddDbContext<CountryContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("CountryContext")));
@@ -31,6 +34,7 @@ namespace OlympicGamesDataTransfer
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

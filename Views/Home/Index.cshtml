@@ -32,16 +32,10 @@
 			@foreach (Country country in Model.Countries)
 			{
 				<li class="list-inline-item">
-					<form asp-action="Details" method="post">
-						<button type="submit" class="bg-white border-0">
+					<a asp-action="Details" asp-route-id="@country.CountryID">
 							<img src="~/images/@country.LogoImage" alt="@country.Name"
 								 title="@country.Name | @country.Game.Name @country.Category.Name"/>
-						</button>
-
-						<input type="hidden" asp-for="@country.CountryID" />
-						<input type="hidden" asp-for="ActiveGame" />
-						<input type="hidden" asp-for="ActiveCatg" />
-					</form>
+					</a>	
 				</li>
 			}
 		</ul>
