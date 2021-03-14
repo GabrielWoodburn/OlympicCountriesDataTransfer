@@ -35,11 +35,26 @@ namespace OlympicGamesDataTransfer.Models
             }
         }
 
+        private List<Sport> sports;
+        public List<Sport> Sports
+        {
+            get => sports;
+            set
+            {
+                sports = value;
+                sports.Insert(0,
+                    new Sport { SportID = "all", Name = "All" });
+            }
+        }
+
         // methods to help view determine active link
         public string CheckActiveGame(string c) =>
             c.ToLower() == ActiveGame.ToLower() ? "active" : "";
 
         public string CheckActiveCatg(string d) =>
-            d.ToLower() == ActiveCatg.ToLower() ? "active" : "";
+        d.ToLower() == ActiveCatg.ToLower() ? "active" : "";
+
+        public string CheckActiveSport(string s) =>
+        s.ToLower() == ActiveSport.ToLower() ? "active" : "";
     }
 }

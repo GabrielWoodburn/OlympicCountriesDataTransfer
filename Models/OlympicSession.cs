@@ -12,6 +12,7 @@ namespace OlympicGamesDataTransfer.Models
         private const string CountKey = "countriescount";
         private const string GameKey = "game";
         private const string CatgKey = "catg";
+        private const string SportKey = "sport";
 
         private ISession session { get; set; }
         public OlympicSession(ISession session)
@@ -35,6 +36,10 @@ namespace OlympicGamesDataTransfer.Models
         public void SetActiveCatg(string category) =>
             session.SetString(CatgKey, category);
         public string GetActiveCatg() => session.GetString(CatgKey);
+
+        public void SetActiveSport(string sport) =>
+            session.SetString(SportKey, sport);
+        public string GetActiveSport() => session.GetString(SportKey);
 
         public void RemoveMyCountries()
         {

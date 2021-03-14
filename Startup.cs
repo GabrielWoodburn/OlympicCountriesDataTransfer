@@ -39,8 +39,8 @@ namespace OlympicGamesDataTransfer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "custom",
-                    pattern: "{controller=Home}/{action=Index}/game/{activeGame}/catg/{activeCatg}");
+                    name: "",
+                    pattern: "{controller=Home}/{action=Index}/game/{activeGame}/catg/{activeCatg}/sport/{activeSport}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

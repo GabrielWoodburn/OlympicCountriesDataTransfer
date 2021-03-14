@@ -26,6 +26,18 @@
                        @Model.CheckActiveCatg(category.CategoryID)">@category.Name</a>
 				}
 		</div>
+		<h3 class="mt-4">Sport</h3>
+		<div class="list-group">
+			@foreach (Sport sport in Model.Sports)
+			{
+				<a asp-action="Index"
+				   asp-route-activeGame="@Model.ActiveSport"
+				   asp-route-activeCatg="@Model.ActiveCatg"
+				   asp-route-activeSport="@sport.SportID"
+				   class="list-group-item
+                       @Model.CheckActiveSport(sport.SportID)">@sport.Name</a>
+				}
+		</div>
 	</div>
 	<div class="col-sm-8">
 		<ul class="list-inline">
@@ -34,7 +46,7 @@
 				<li class="list-inline-item">
 					<a asp-action="Details" asp-route-id="@country.CountryID">
 							<img src="~/images/@country.LogoImage" alt="@country.Name"
-								 title="@country.Name | @country.Game.Name @country.Category.Name"/>
+								 title="@country.Name | @country.Game.Name @country.Category.Name @country.Sport.Name"/>
 					</a>	
 				</li>
 			}

@@ -17,6 +17,7 @@ namespace OlympicGamesDataTransfer.Controllers
             {
                 ActiveGame = session.GetActiveGame(),
                 ActiveCatg = session.GetActiveCatg(),
+                ActiveSport = session.GetActiveSport(),
                 Countries = session.GetMyCountries()
             };
 
@@ -38,7 +39,8 @@ namespace OlympicGamesDataTransfer.Controllers
                 new
                 {
                     ActiveGame = session.GetActiveGame(),
-                    ActiveCatg = session.GetActiveCatg()
+                    ActiveCatg = session.GetActiveCatg(),
+                    ActiveSport = session.GetActiveSport()
                 });
         }
     }

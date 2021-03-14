@@ -11,6 +11,7 @@ namespace OlympicGamesDataTransfer.Models
         public string Name { get; set; }
         public Game Game { get; set; }
         public Category Category { get; set; }
+        public Sport Sport { get; set; }
         public string LogoImage { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@model CountryListViewModel
 @{
 	ViewData["Title"] = "Favorites";
+	var session = new OlympicSession(Context.Session);
 }
 
 <div class="text-center">
@@ -8,7 +9,8 @@
 	<form asp-action="Delete" method="post">
 		<a asp-action="Index" asp-controller="Home" class="btn btn-primary"
 		   asp-route-activeGame="@Model.ActiveGame"
-		   asp-route-activeCatg="@Model.ActiveCatg">
+		   asp-route-activeCatg="@Model.ActiveCatg"
+		   asp-route-activeSport="@Model.ActiveSport">
 			Back to Home Page
 		</a>
 		<button type="submit" class="btn btn-primary">
@@ -33,7 +35,7 @@
 							@country.Name
 						</div>
 						<div class="col-sm-4">
-							@country.Game.Name @country.Category.Name
+							@country.Game.Name @country.Category.Name @country.Sport.Name
 						</div>
 					</div>
 				</li>

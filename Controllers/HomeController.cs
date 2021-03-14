@@ -15,12 +15,16 @@ namespace OlympicGamesDataTransfer.Controllers
             context = ctx;
         }
 
-        public IActionResult Index(string activeGame = "all",
-                                   string activeCatg = "all")
+        public IActionResult Index(CountryListViewModel model)
         {
+            model.Categories = context.Categories.ToList();
+            model.Games = context.Games.ToList();
+            model.Sports = context.Sports.ToList();
+
             var session = new OlympicSession(HttpContext.Session);
-            session.SetActiveGame(activeGame);
-            session.SetActiveCatg(activeCatg);
+            session.SetActiveGame(model.ActiveGame);
+            session.SetActiveCatg(model.ActiveCatg);
+            session.SetActiveSport(model.ActiveSport);
 
             int? count = session.GetMyCountryCount();
             if(count == null)
@@ -32,26 +36,22 @@ namespace OlympicGamesDataTransfer.Controllers
                 if (ids.Length > 0)
                     mycountries = context.Countries.Include(t => t.Game)
                         .Include(t => t.Category)
+                        .Include(t => t.Sport)
                         .Where(t => ids.Contains(t.CountryID)).ToList();
                 session.SetMyCountries(mycountries);
             }
 
-            var model = new CountryListViewModel
-            {
-                ActiveGame = activeGame,
-                ActiveCatg = activeCatg,
-                Games = context.Games.ToList(),
-                Categories = context.Categories.ToList()
-            };
-
 
             IQueryable<Country> query = context.Countries;
-            if (activeGame != "all")
+            if (model.ActiveGame != "all")
                 query = query.Where(
-                    t => t.Game.GameID.ToLower() == activeGame.ToLower());
-            if (activeCatg != "all")
+                    t => t.Game.GameID.ToLower() == model.ActiveGame.ToLower());
+            if (model.ActiveCatg != "all")
                 query = query.Where(
-                    t => t.Category.CategoryID.ToLower() == activeCatg.ToLower());
+                    t => t.Category.CategoryID.ToLower() == model.ActiveCatg.ToLower());
+            if (model.ActiveSport != "all")
+                query = query.Where(
+                    t => t.Sport.SportID.ToLower() == model.ActiveSport.ToLower());
             model.Countries = query.ToList();
 
             return View(model);
@@ -65,9 +65,11 @@ namespace OlympicGamesDataTransfer.Controllers
                 Country = context.Countries
                 .Include(t => t.Game)
                 .Include(t => t.Category)
+                .Include(t => t.Sport)
                 .FirstOrDefault(testc => testc.CountryID == id),
                 ActiveCatg = session.GetActiveCatg(),
-                ActiveGame = session.GetActiveGame()
+                ActiveGame = session.GetActiveGame(),
+                ActiveSport = session.GetActiveSport()
             };
             return View(model);
         }
@@ -78,6 +80,7 @@ namespace OlympicGamesDataTransfer.Controllers
             model.Country = context.Countries
                 .Include(t => t.Game)
                 .Include(t => t.Category)
+                .Include(t => t.Sport)
                 .Where(t => t.CountryID == model.Country.CountryID)
                 .FirstOrDefault();
 
@@ -86,7 +89,7 @@ namespace OlympicGamesDataTransfer.Controllers
             countries.Add(model.Country);
             session.SetMyCountries(countries);
 
-            var cookies = new OlympicCookies(Response.Cookies);
+            var cookies = new OlympicCookies(HttpContext.Response.Cookies);
             cookies.SetMyCountryIds(countries);
 
             TempData["message"] = $"{model.Country.Name} added to your favorites";
@@ -95,7 +98,8 @@ namespace OlympicGamesDataTransfer.Controllers
                 new
                 {
                     ActiveGame = session.GetActiveGame(),
-                    ActiveCatg = session.GetActiveCatg()
+                    ActiveCatg = session.GetActiveCatg(),
+                    ActiveSport = session.GetActiveSport()
                 });
         }
     }
